@@ -318,14 +318,36 @@
         botao.classList.add("memoria");
       }
 
-      botao.addEventListener("click", () => {
-        document.querySelectorAll(".dia").forEach(d => {
-          d.style.outline = "";
-        });
+      let tempoPressionado;
+let toqueLongo = false;
 
-        botao.style.outline = "2px solid #c99983";
-        botao.style.outlineOffset = "3px";
-      });
+function iniciarToqueLongo() {
+  toqueLongo = false;
+
+  tempoPressionado = setTimeout(() => {
+    toqueLongo = true;
+
+    botao.style.outline = "3px solid #c99983";
+    botao.style.outlineOffset = "4px";
+
+    if (navigator.vibrate) {
+      navigator.vibrate(80);
+    }
+
+    alert(
+      `🐾 Buscando a memória de ${dia} de ${nomesMeses[mesAtual]} de ${anoAtual}...`
+    );
+  }, 700);
+}
+
+function cancelarToqueLongo() {
+  clearTimeout(tempoPressionado);
+}
+
+botao.addEventListener("pointerdown", iniciarToqueLongo);
+botao.addEventListener("pointerup", cancelarToqueLongo);
+botao.addEventListener("pointerleave", cancelarToqueLongo);
+botao.addEventListener("pointercancel", cancelarToqueLongo);
 
       areaDias.appendChild(botao);
     }
