@@ -535,11 +535,24 @@ document.body.appendChild(cachorro);
 
 cachorro.classList.add("andando");
 
-/* 1 — cachorro atravessa a tela para buscar a cápsula */
+const alvo = botao.getBoundingClientRect();
+const cao = cachorro.getBoundingClientRect();
+
+const destinoX = alvo.left - cao.width + (alvo.width / 2);
+const destinoY = alvo.top - cao.height + (alvo.height / 2);
+
 cachorro.animate(
   [
-    { left: "-150px", transform: "scaleX(1)" },
-    { left: "calc(100% - 115px)", transform: "scaleX(1)" }
+    {
+      left: "-150px",
+      top: `${cao.top}px`,
+      transform: "scaleX(1)"
+    },
+    {
+      left: `${destinoX}px`,
+      top: `${destinoY}px`,
+      transform: "scaleX(1)"
+    }
   ],
   {
     duration: 1400,
@@ -548,21 +561,33 @@ cachorro.animate(
   }
 );
 
-/* 2 — encontra e pega a cápsula com a boca */
 setTimeout(() => {
-  cachorro.querySelector(".mini-capsula").style.display = "block";
+  const dataSelecionada = botao.cloneNode(true);
+
+  dataSelecionada.style.position = "absolute";
+  dataSelecionada.style.left = "88px";
+  dataSelecionada.style.top = "28px";
+  dataSelecionada.style.width = "32px";
+  dataSelecionada.style.height = "32px";
+  dataSelecionada.style.borderRadius = "50%";
+  dataSelecionada.style.zIndex = "10";
+  dataSelecionada.style.pointerEvents = "none";
+
+  cachorro.appendChild(dataSelecionada);
+
   cachorro.querySelector(".fala-cao").textContent =
     "Achei! Vou levar para você. ❤️";
 
-  /* 3 — vira e volta carregando a cápsula */
   cachorro.animate(
     [
       {
-        left: "calc(100% - 115px)",
+        left: `${destinoX}px`,
+        top: `${destinoY}px`,
         transform: "scaleX(-1)"
       },
       {
         left: "calc(50% - 55px)",
+        top: "calc(50% - 55px)",
         transform: "scaleX(-1)"
       }
     ],
