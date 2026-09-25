@@ -344,37 +344,235 @@ const cachorro = document.createElement("div");
 cachorro.className = "cachorro-memoria";
 
 cachorro.innerHTML = `
-  <div style="
-    font-size:58px;
-    text-align:center;
-  ">🐶</div>
+  <div class="cao-corpo">
+    <div class="cao-rabo"></div>
 
-  <div style="
-    background:white;
-    padding:10px 16px;
-    border-radius:18px;
-    margin-top:6px;
-    box-shadow:0 6px 20px rgba(0,0,0,.12);
-    font-size:14px;
-    white-space:nowrap;
-  ">
-    Buscando sua memória... 🐾
+    <div class="cao-tronco">
+      <div class="cao-pata pata1"></div>
+      <div class="cao-pata pata2"></div>
+      <div class="cao-pata pata3"></div>
+      <div class="cao-pata pata4"></div>
+    </div>
+
+    <div class="cao-cabeca">
+      <div class="cao-orelha orelha1"></div>
+      <div class="cao-orelha orelha2"></div>
+      <div class="cao-olho olho1"></div>
+      <div class="cao-olho olho2"></div>
+      <div class="cao-focinho"></div>
+    </div>
+
+    <div class="mini-capsula">❤️</div>
   </div>
+
+  <div class="fala-cao">Buscando sua memória... 🐾</div>
 `;
 
-cachorro.style.position = "fixed";
-cachorro.style.left = "-140px";
-cachorro.style.bottom = "90px";
-cachorro.style.zIndex = "9999";
-cachorro.style.transition = "left 1.8s ease-in-out";
-cachorro.style.pointerEvents = "none";
+const estiloCachorro = document.createElement("style");
 
+estiloCachorro.textContent = `
+  .cachorro-memoria {
+    position: fixed;
+    left: -150px;
+    bottom: 105px;
+    z-index: 9999;
+    width: 130px;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .cao-corpo {
+    width: 110px;
+    height: 75px;
+    position: relative;
+    margin: auto;
+  }
+
+  .cao-tronco {
+    position: absolute;
+    width: 68px;
+    height: 40px;
+    background: #c98f62;
+    border-radius: 50% 48% 42% 45%;
+    left: 18px;
+    top: 22px;
+  }
+
+  .cao-cabeca {
+    position: absolute;
+    width: 43px;
+    height: 42px;
+    background: #d69c6d;
+    border-radius: 48% 48% 45% 45%;
+    right: 0;
+    top: 8px;
+  }
+
+  .cao-orelha {
+    position: absolute;
+    width: 15px;
+    height: 27px;
+    background: #8b5c42;
+    border-radius: 60%;
+    top: 3px;
+  }
+
+  .orelha1 {
+    left: -4px;
+    transform: rotate(22deg);
+  }
+
+  .orelha2 {
+    right: -3px;
+    transform: rotate(-20deg);
+  }
+
+  .cao-olho {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #302522;
+    border-radius: 50%;
+    top: 17px;
+  }
+
+  .olho1 {
+    left: 12px;
+  }
+
+  .olho2 {
+    right: 12px;
+  }
+
+  .cao-focinho {
+    position: absolute;
+    width: 9px;
+    height: 7px;
+    background: #302522;
+    border-radius: 50%;
+    right: -2px;
+    top: 25px;
+  }
+
+  .cao-pata {
+    position: absolute;
+    width: 9px;
+    height: 27px;
+    background: #b97850;
+    border-radius: 8px;
+    bottom: -17px;
+    transform-origin: top center;
+  }
+
+  .pata1 { left: 9px; }
+  .pata2 { left: 25px; }
+  .pata3 { right: 22px; }
+  .pata4 { right: 7px; }
+
+  .cao-rabo {
+    position: absolute;
+    width: 34px;
+    height: 10px;
+    background: #b97850;
+    border-radius: 10px;
+    left: 2px;
+    top: 25px;
+    transform-origin: right center;
+    transform: rotate(-30deg);
+  }
+
+  .mini-capsula {
+    display: none;
+    position: absolute;
+    right: -20px;
+    top: 35px;
+    width: 32px;
+    height: 23px;
+    background: #f5e3dc;
+    border: 2px solid #9b7569;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 19px;
+  }
+
+  .fala-cao {
+    margin-top: 14px;
+    background: white;
+    color: #5e4943;
+    padding: 9px 12px;
+    border-radius: 17px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.12);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .cachorro-memoria.andando .cao-pata {
+    animation: andarPata .22s infinite alternate;
+  }
+
+  .cachorro-memoria.andando .pata2,
+  .cachorro-memoria.andando .pata4 {
+    animation-delay: .22s;
+  }
+
+  .cachorro-memoria.andando .cao-rabo {
+    animation: abanarRabo .18s infinite alternate;
+  }
+
+  @keyframes andarPata {
+    from { transform: rotate(24deg); }
+    to   { transform: rotate(-24deg); }
+  }
+
+  @keyframes abanarRabo {
+    from { transform: rotate(-48deg); }
+    to   { transform: rotate(5deg); }
+  }
+`;
+
+document.head.appendChild(estiloCachorro);
 document.body.appendChild(cachorro);
 
+cachorro.classList.add("andando");
+
+/* 1 — cachorro atravessa a tela para buscar a cápsula */
+cachorro.animate(
+  [
+    { left: "-150px", transform: "scaleX(1)" },
+    { left: "calc(100% - 115px)", transform: "scaleX(1)" }
+  ],
+  {
+    duration: 1400,
+    easing: "ease-in-out",
+    fill: "forwards"
+  }
+);
+
+/* 2 — encontra e pega a cápsula com a boca */
 setTimeout(() => {
-  cachorro.style.left = "50%";
-  cachorro.style.transform = "translateX(-50%)";
-}, 50);
+  cachorro.querySelector(".mini-capsula").style.display = "block";
+  cachorro.querySelector(".fala-cao").textContent =
+    "Achei! Vou levar para você. ❤️";
+
+  /* 3 — vira e volta carregando a cápsula */
+  cachorro.animate(
+    [
+      {
+        left: "calc(100% - 115px)",
+        transform: "scaleX(-1)"
+      },
+      {
+        left: "calc(50% - 55px)",
+        transform: "scaleX(-1)"
+      }
+    ],
+    {
+      duration: 1200,
+      easing: "ease-in-out",
+      fill: "forwards"
+    }
+  );
+}, 1450);
 
 setTimeout(() => {
   cachorro.remove();
