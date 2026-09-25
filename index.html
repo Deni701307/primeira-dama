@@ -171,7 +171,28 @@
       font-size: 16px;
       font-weight: bold;
     }
+.compartilhar {
+  margin-top: 18px;
+  text-align: center;
+}
 
+.compartilhar p {
+  color: #8a817c;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+#convidarPessoa {
+  width: 100%;
+  border: 2px solid #5e4943;
+  border-radius: 18px;
+  background: transparent;
+  color: #5e4943;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+}
+    
     .frase {
       text-align: center;
       color: #91857f;
@@ -328,7 +349,10 @@
     <div class="acoes">
       <button class="nova-capsula">＋ Criar nova cápsula</button>
     </div>
-
+<div class="compartilhar">
+  <p>Divida suas memórias com alguém ❤️</p>
+  <button id="convidarPessoa">+ Convidar pessoa</button>
+</div>
     <p class="frase">
       Fotos, vídeos, áudios e palavras.<br>
       Guarde hoje para reviver amanhã.
@@ -942,6 +966,33 @@ botao.addEventListener("pointercancel", cancelarToqueLongo);
       areaDias.appendChild(botao);
     }
   }
+  const botaoConvidar = document.getElementById("convidarPessoa");
+
+botaoConvidar.addEventListener("click", () => {
+  const meuId = localStorage.getItem("primeiraDamaId");
+
+  if (!meuId) {
+    alert("Crie seu ID primeiro.");
+    return;
+  }
+
+  const linkConvite =
+    window.location.origin +
+    window.location.pathname +
+    "?convite=" +
+    encodeURIComponent(meuId);
+
+  if (navigator.share) {
+    navigator.share({
+      title: "Primeira Dama ❤️",
+      text: "Quero dividir minhas memórias com você. Entre no Primeira Dama ❤️",
+      url: linkConvite
+    });
+  } else {
+    navigator.clipboard.writeText(linkConvite);
+    alert("Link do convite copiado!");
+  }
+});
 
   botoesMes[0].addEventListener("click", () => {
     mesAtual--;
