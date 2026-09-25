@@ -382,7 +382,37 @@ continuarCadastro.addEventListener("click", () => {
 
   localStorage.setItem("primeiraDamaId", id);
 
-  alert("Seu ID @" + id + " foi criado! Agora vamos criar seu avatar.");
+  telaCadastro.innerHTML = `
+  <h1>Primeira Dama ❤️</h1>
+  <h2>Crie seu avatar</h2>
+
+  <p>Escolha um estilo para começar.</p>
+
+  <div class="opcoes-avatar">
+    <button class="avatar-opcao" data-avatar="1">👨</button>
+    <button class="avatar-opcao" data-avatar="2">👩</button>
+    <button class="avatar-opcao" data-avatar="3">🧑</button>
+  </div>
+
+  <p>Depois você poderá personalizar cabelo, pele e roupa.</p>
+`;
+});
+  document.addEventListener("click", (event) => {
+  const botaoAvatar = event.target.closest(".avatar-opcao");
+
+  if (!botaoAvatar) return;
+
+  const avatar = botaoAvatar.dataset.avatar;
+
+  localStorage.setItem("primeiraDamaAvatar", avatar);
+
+  document.querySelectorAll(".avatar-opcao").forEach((botao) => {
+    botao.style.outline = "none";
+  });
+
+  botaoAvatar.style.outline = "4px solid #ff7aa8";
+
+  alert("Avatar escolhido! ❤️");
 });
   const nomesMeses = [
     "Janeiro", "Fevereiro", "Março", "Abril",
