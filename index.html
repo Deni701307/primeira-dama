@@ -271,5 +271,90 @@
 
   </main>
 
+<script>
+  const nomesMeses = [
+    "Janeiro", "Fevereiro", "Março", "Abril",
+    "Maio", "Junho", "Julho", "Agosto",
+    "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+
+  let mesAtual = 8;
+  let anoAtual = 2026;
+
+  const tituloMes = document.querySelector(".mes h2");
+  const areaDias = document.querySelector(".dias");
+  const botoesMes = document.querySelectorAll(".mes button");
+
+  function montarCalendario() {
+    tituloMes.textContent = `${nomesMeses[mesAtual]} ${anoAtual}`;
+    areaDias.innerHTML = "";
+
+    const primeiroDia = new Date(anoAtual, mesAtual, 1).getDay();
+    const quantidadeDias = new Date(anoAtual, mesAtual + 1, 0).getDate();
+
+    for (let i = 0; i < primeiroDia; i++) {
+      const vazio = document.createElement("span");
+      areaDias.appendChild(vazio);
+    }
+
+    for (let dia = 1; dia <= quantidadeDias; dia++) {
+      const botao = document.createElement("button");
+      botao.className = "dia";
+      botao.textContent = dia;
+
+      if (
+        dia === 25 &&
+        mesAtual === 8 &&
+        anoAtual === 2026
+      ) {
+        botao.classList.add("hoje");
+      }
+
+      if (
+        mesAtual === 8 &&
+        anoAtual === 2026 &&
+        [8, 11, 17].includes(dia)
+      ) {
+        botao.classList.add("memoria");
+      }
+
+      botao.addEventListener("click", () => {
+        document.querySelectorAll(".dia").forEach(d => {
+          d.style.outline = "";
+        });
+
+        botao.style.outline = "2px solid #c99983";
+        botao.style.outlineOffset = "3px";
+      });
+
+      areaDias.appendChild(botao);
+    }
+  }
+
+  botoesMes[0].addEventListener("click", () => {
+    mesAtual--;
+
+    if (mesAtual < 0) {
+      mesAtual = 11;
+      anoAtual--;
+    }
+
+    montarCalendario();
+  });
+
+  botoesMes[1].addEventListener("click", () => {
+    mesAtual++;
+
+    if (mesAtual > 11) {
+      mesAtual = 0;
+      anoAtual++;
+    }
+
+    montarCalendario();
+  });
+
+  montarCalendario();
+</script>
+  
 </body>
 </html>
