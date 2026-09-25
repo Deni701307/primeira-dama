@@ -334,9 +334,51 @@ function iniciarToqueLongo() {
       navigator.vibrate(80);
     }
 
-    alert(
-      `🐾 Buscando a memória de ${dia} de ${nomesMeses[mesAtual]} de ${anoAtual}...`
-    );
+    const cachorroAntigo = document.querySelector(".cachorro-memoria");
+
+if (cachorroAntigo) {
+  cachorroAntigo.remove();
+}
+
+const cachorro = document.createElement("div");
+cachorro.className = "cachorro-memoria";
+
+cachorro.innerHTML = `
+  <div style="
+    font-size:58px;
+    text-align:center;
+  ">🐶</div>
+
+  <div style="
+    background:white;
+    padding:10px 16px;
+    border-radius:18px;
+    margin-top:6px;
+    box-shadow:0 6px 20px rgba(0,0,0,.12);
+    font-size:14px;
+    white-space:nowrap;
+  ">
+    Buscando sua memória... 🐾
+  </div>
+`;
+
+cachorro.style.position = "fixed";
+cachorro.style.left = "-140px";
+cachorro.style.bottom = "90px";
+cachorro.style.zIndex = "9999";
+cachorro.style.transition = "left 1.8s ease-in-out";
+cachorro.style.pointerEvents = "none";
+
+document.body.appendChild(cachorro);
+
+setTimeout(() => {
+  cachorro.style.left = "50%";
+  cachorro.style.transform = "translateX(-50%)";
+}, 50);
+
+setTimeout(() => {
+  cachorro.remove();
+}, 3000);
   }, 700);
 }
 
