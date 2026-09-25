@@ -351,7 +351,38 @@ continuarCadastro.addEventListener("click", () => {
 
   localStorage.setItem("primeiraDamaNome", nome);
 
-  alert("Olá, " + nome + "! Agora vamos criar seu ID.");
+  telaCadastro.innerHTML = `
+  <h1>Primeira Dama ❤️</h1>
+  <h2>Crie seu ID</h2>
+
+  <p>Esse será seu identificador único.</p>
+
+  <input
+    type="text"
+    id="idUsuario"
+    placeholder="Ex: daniel123"
+    maxlength="20"
+  >
+
+  <button id="criarId">
+    Criar meu ID
+  </button>
+`;
+});
+  document.addEventListener("click", (event) => {
+  if (event.target.id !== "criarId") return;
+
+  const campoId = document.getElementById("idUsuario");
+  const id = campoId.value.trim().toLowerCase();
+
+  if (id === "") {
+    alert("Escolha um ID para continuar.");
+    return;
+  }
+
+  localStorage.setItem("primeiraDamaId", id);
+
+  alert("Seu ID @" + id + " foi criado! Agora vamos criar seu avatar.");
 });
   const nomesMeses = [
     "Janeiro", "Fevereiro", "Março", "Abril",
