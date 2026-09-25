@@ -340,7 +340,11 @@
   const telaCadastro = document.getElementById("telaCadastro");
 const nomeUsuario = document.getElementById("nomeUsuario");
 const continuarCadastro = document.getElementById("continuarCadastro");
+const perfilCriado = localStorage.getItem("primeiraDamaPerfilCriado");
 
+if (perfilCriado === "sim") {
+  telaCadastro.style.display = "none";
+}
 continuarCadastro.addEventListener("click", () => {
   const nome = nomeUsuario.value.trim();
 
@@ -412,7 +416,8 @@ continuarCadastro.addEventListener("click", () => {
 
   botaoAvatar.style.outline = "4px solid #ff7aa8";
 
-  alert("Avatar escolhido! ❤️");
+  localStorage.setItem("primeiraDamaPerfilCriado", "sim");
+telaCadastro.style.display = "none";
 });
   const nomesMeses = [
     "Janeiro", "Fevereiro", "Março", "Abril",
