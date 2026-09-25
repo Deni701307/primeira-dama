@@ -178,10 +178,74 @@
       line-height: 1.5;
       margin: 26px 20px 0;
     }
+  /* TELA DE PRIMEIRO ACESSO */
+.tela-cadastro {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: linear-gradient(160deg, #2b1528, #6b294f);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  text-align: center;
+}
+
+.tela-cadastro h1 {
+  margin-bottom: 10px;
+}
+
+.tela-cadastro h2 {
+  margin-bottom: 25px;
+}
+
+.tela-cadastro input {
+  width: 100%;
+  max-width: 320px;
+  padding: 15px;
+  margin: 10px 0 18px;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  outline: none;
+}
+
+.tela-cadastro button {
+  width: 100%;
+  max-width: 320px;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
   </style>
 </head>
 
 <body>
+  <!-- TELA DE PRIMEIRO ACESSO -->
+<div id="telaCadastro" class="tela-cadastro">
+
+  <h1>Primeira Dama ❤️</h1>
+  <h2>Crie seu perfil</h2>
+
+  <p>Como você quer ser chamado?</p>
+
+  <input
+    type="text"
+    id="nomeUsuario"
+    placeholder="Digite seu nome"
+    maxlength="30"
+  >
+
+  <button id="continuarCadastro">
+    Continuar
+  </button>
+
+</div>
 
   <main class="app">
 
@@ -272,6 +336,23 @@
   </main>
 
 <script>
+  
+  const telaCadastro = document.getElementById("telaCadastro");
+const nomeUsuario = document.getElementById("nomeUsuario");
+const continuarCadastro = document.getElementById("continuarCadastro");
+
+continuarCadastro.addEventListener("click", () => {
+  const nome = nomeUsuario.value.trim();
+
+  if (nome === "") {
+    alert("Digite seu nome para continuar.");
+    return;
+  }
+
+  localStorage.setItem("primeiraDamaNome", nome);
+
+  alert("Olá, " + nome + "! Agora vamos criar seu ID.");
+});
   const nomesMeses = [
     "Janeiro", "Fevereiro", "Março", "Abril",
     "Maio", "Junho", "Julho", "Agosto",
