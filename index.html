@@ -251,7 +251,7 @@
   <!-- TELA DE PRIMEIRO ACESSO -->
 <div id="telaCadastro" class="tela-cadastro">
 
-  <h1>Primeira Dama ❤️</h1>
+  <h1>Memora ❤️</h1>
   <h2>Crie seu perfil</h2>
 
   <p>Como você quer ser chamado?</p>
@@ -556,162 +556,223 @@ const estiloCachorro = document.createElement("style");
 
 estiloCachorro.textContent = `
   .cachorro-memoria {
-    position: fixed;
-    left: -150px;
-    bottom: 105px;
-    z-index: 9999;
-    width: 130px;
-    text-align: center;
-    pointer-events: none;
-  }
+  position: fixed;
+  left: -170px;
+  bottom: 105px;
+  z-index: 9999;
+  width: 145px;
+  height: 120px;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 8px rgba(0,0,0,.18));
+}
 
-  .cao-corpo {
-    width: 110px;
-    height: 75px;
-    position: relative;
-    margin: auto;
-  }
+.cao-corpo {
+  width: 92px;
+  height: 58px;
+  position: absolute;
+  left: 18px;
+  top: 43px;
+  background: #f3a65a;
+  border: 4px solid #5b3825;
+  border-radius: 52% 48% 46% 50%;
+}
 
-  .cao-tronco {
-    position: absolute;
-    width: 68px;
-    height: 40px;
-    background: #c98f62;
-    border-radius: 50% 48% 42% 45%;
-    left: 18px;
-    top: 22px;
-  }
+.cao-corpo::before {
+  content: "";
+  position: absolute;
+  width: 34px;
+  height: 27px;
+  left: 10px;
+  top: 7px;
+  background: #ffd39a;
+  border-radius: 50%;
+  transform: rotate(-12deg);
+}
 
-  .cao-cabeca {
-    position: absolute;
-    width: 43px;
-    height: 42px;
-    background: #d69c6d;
-    border-radius: 48% 48% 45% 45%;
-    right: 0;
-    top: 8px;
-  }
+.cao-cabeca {
+  position: absolute;
+  width: 62px;
+  height: 59px;
+  right: 2px;
+  top: 20px;
+  background: #f3a65a;
+  border: 4px solid #5b3825;
+  border-radius: 48% 52% 46% 48%;
+  z-index: 3;
+}
 
-  .cao-orelha {
-    position: absolute;
-    width: 15px;
-    height: 27px;
-    background: #8b5c42;
-    border-radius: 60%;
-    top: 3px;
-  }
+.cao-cabeca::after {
+  content: "";
+  position: absolute;
+  width: 36px;
+  height: 25px;
+  right: -8px;
+  bottom: 3px;
+  background: #ffd39a;
+  border: 3px solid #5b3825;
+  border-radius: 50%;
+  z-index: -1;
+}
 
-  .orelha1 {
-    left: -4px;
-    transform: rotate(22deg);
-  }
+.cao-orelha {
+  position: absolute;
+  width: 21px;
+  height: 31px;
+  background: #9a5b35;
+  border: 3px solid #5b3825;
+  border-radius: 70% 40% 65% 45%;
+  top: -9px;
+  z-index: -1;
+}
 
-  .orelha2 {
-    right: -3px;
-    transform: rotate(-20deg);
-  }
+.orelha1 {
+  left: 4px;
+  transform: rotate(22deg);
+}
 
-  .cao-olho {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background: #302522;
-    border-radius: 50%;
-    top: 17px;
-  }
+.orelha2 {
+  right: 1px;
+  transform: rotate(-22deg);
+}
 
-  .olho1 {
-    left: 12px;
-  }
+.cao-olho {
+  position: absolute;
+  width: 10px;
+  height: 13px;
+  background: #302522;
+  border-radius: 50%;
+  top: 19px;
+}
 
-  .olho2 {
-    right: 12px;
-  }
+.cao-olho::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  left: 2px;
+  top: 2px;
+}
 
-  .cao-focinho {
-    position: absolute;
-    width: 9px;
-    height: 7px;
-    background: #302522;
-    border-radius: 50%;
-    right: -2px;
-    top: 25px;
-  }
+.olho1 { left: 13px; }
+.olho2 { right: 13px; }
 
-  .cao-pata {
-    position: absolute;
-    width: 9px;
-    height: 27px;
-    background: #b97850;
-    border-radius: 8px;
-    bottom: -17px;
-    transform-origin: top center;
-  }
+.cao-focinho {
+  position: absolute;
+  width: 13px;
+  height: 10px;
+  background: #302522;
+  border-radius: 55% 55% 65% 65%;
+  right: -7px;
+  top: 35px;
+}
 
-  .pata1 { left: 9px; }
-  .pata2 { left: 25px; }
-  .pata3 { right: 22px; }
-  .pata4 { right: 7px; }
+.cao-focinho::after {
+  content: "◡";
+  position: absolute;
+  font-size: 16px;
+  color: #5b3825;
+  left: -7px;
+  top: 4px;
+}
 
-  .cao-rabo {
-    position: absolute;
-    width: 34px;
-    height: 10px;
-    background: #b97850;
-    border-radius: 10px;
-    left: 2px;
-    top: 25px;
-    transform-origin: right center;
-    transform: rotate(-30deg);
-  }
+.cao-pata {
+  position: absolute;
+  width: 15px;
+  height: 35px;
+  background: #f3a65a;
+  border: 3px solid #5b3825;
+  border-radius: 10px 10px 13px 13px;
+  bottom: -29px;
+  transform-origin: top center;
+}
 
-  .mini-capsula {
-    display: none;
-    position: absolute;
-    right: -20px;
-    top: 35px;
-    width: 32px;
-    height: 23px;
-    background: #f5e3dc;
-    border: 2px solid #9b7569;
-    border-radius: 6px;
-    font-size: 13px;
-    line-height: 19px;
-  }
+.pata1 { left: 10px; }
+.pata2 { left: 55px; }
+.pata3 { right: 48px; }
+.pata4 { right: 7px; }
 
-  .fala-cao {
-    margin-top: 14px;
-    background: white;
-    color: #5e4943;
-    padding: 9px 12px;
-    border-radius: 17px;
-    box-shadow: 0 6px 18px rgba(0,0,0,.12);
-    font-size: 13px;
-    white-space: nowrap;
-  }
+.cao-rabo {
+  position: absolute;
+  width: 45px;
+  height: 15px;
+  background: #f3a65a;
+  border: 3px solid #5b3825;
+  border-radius: 15px;
+  left: -30px;
+  top: 47px;
+  transform-origin: right center;
+  transform: rotate(-35deg);
+}
 
-  .cachorro-memoria.andando .cao-pata {
-    animation: andarPata .22s infinite alternate;
-  }
+.mini-capsula {
+  display: none;
+  position: absolute;
+  right: -21px;
+  top: 68px;
+  width: 34px;
+  height: 27px;
+  background: #ff6f91;
+  border: 3px solid #5b3825;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+}
 
-  .cachorro-memoria.andando .pata2,
-  .cachorro-memoria.andando .pata4 {
-    animation-delay: .22s;
-  }
+.fala-cao {
+  position: absolute;
+  left: 55px;
+  bottom: 108px;
+  min-width: 165px;
+  background: white;
+  color: #5b3825;
+  padding: 10px 13px;
+  border: 3px solid #5b3825;
+  border-radius: 18px;
+  box-shadow: 0 5px 12px rgba(0,0,0,.12);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
 
-  .cachorro-memoria.andando .cao-rabo {
-    animation: abanarRabo .18s infinite alternate;
-  }
+.fala-cao::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 28px;
+  width: 15px;
+  height: 15px;
+  background: white;
+  border-right: 3px solid #5b3825;
+  border-bottom: 3px solid #5b3825;
+  transform: rotate(45deg);
+}
 
-  @keyframes andarPata {
-    from { transform: rotate(24deg); }
-    to   { transform: rotate(-24deg); }
-  }
+.cachorro-memoria.andando .cao-pata {
+  animation: andarPata .22s infinite alternate;
+}
 
-  @keyframes abanarRabo {
-    from { transform: rotate(-48deg); }
-    to   { transform: rotate(5deg); }
-  }
+.cachorro-memoria.andando .pata2,
+.cachorro-memoria.andando .pata4 {
+  animation-delay: .22s;
+}
+
+.cachorro-memoria.andando .cao-rabo {
+  animation: abanarRabo .18s infinite alternate;
+}
+
+@keyframes andarPata {
+  from { transform: rotate(24deg); }
+  to { transform: rotate(-24deg); }
+}
+
+@keyframes abanarRabo {
+  from { transform: rotate(-45deg); }
+  to { transform: rotate(8deg); }
+}
+
 `;
 
 document.head.appendChild(estiloCachorro);
