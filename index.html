@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f7f2ec">
-  <title>Primeira Dama</title>
+  <title>Memora</title>
 
   <style>
     * {
@@ -272,7 +272,7 @@
   <main class="app">
 
     <header class="topo">
-      <div class="marca">PRIMEIRA DAMA</div>
+      <div class="marca">MEMORA</div>
       <div id="idNoTopo"></div>
       <div class="perfil">♡</div>
     </header>
@@ -366,8 +366,8 @@
   const telaCadastro = document.getElementById("telaCadastro");
 const nomeUsuario = document.getElementById("nomeUsuario");
 const continuarCadastro = document.getElementById("continuarCadastro");
-const perfilCriado = localStorage.getItem("primeiraDamaPerfilCriado");
-const idSalvo = localStorage.getItem("primeiraDamaId");
+const perfilCriado = localStorage.getItem("memoraPerfilCriado");
+const idSalvo = localStorage.getItem("memoraId");
 const idNoTopo = document.getElementById("idNoTopo");
 const parametros = new URLSearchParams(window.location.search);
   if (idSalvo) {
@@ -390,10 +390,10 @@ continuarCadastro.addEventListener("click", () => {
     return;
   }
 
-  localStorage.setItem("primeiraDamaNome", nome);
+  localStorage.setItem("memoraNome", nome);
 
   telaCadastro.innerHTML = `
-  <h1>Primeira Dama ❤️</h1>
+  <h1>Memora ❤️</h1>
   <h2>Crie seu ID</h2>
 
   <p>Esse será seu identificador único.</p>
@@ -421,10 +421,10 @@ continuarCadastro.addEventListener("click", () => {
     return;
   }
 
-  localStorage.setItem("primeiraDamaId", id);
+  localStorage.setItem("memoraId", id);
 idNoTopo.textContent = "@" + id;
   telaCadastro.innerHTML = `
-  <h1>Primeira Dama ❤️</h1>
+  <h1>Memora ❤️</h1>
   <h2>Crie seu avatar</h2>
 
   <p>Escolha um estilo para começar.</p>
@@ -445,7 +445,7 @@ idNoTopo.textContent = "@" + id;
 
   const avatar = botaoAvatar.dataset.avatar;
 
-  localStorage.setItem("primeiraDamaAvatar", avatar);
+  localStorage.setItem("memoraAvatar", avatar);
 
   document.querySelectorAll(".avatar-opcao").forEach((botao) => {
     botao.style.outline = "none";
@@ -453,7 +453,7 @@ idNoTopo.textContent = "@" + id;
 
   botaoAvatar.style.outline = "4px solid #ff7aa8";
 
-  localStorage.setItem("primeiraDamaPerfilCriado", "sim");
+  localStorage.setItem("memoraPerfilCriado", "sim");
 telaCadastro.style.display = "none";
 });
   const nomesMeses = [
