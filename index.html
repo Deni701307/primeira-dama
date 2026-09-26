@@ -273,6 +273,7 @@
 
     <header class="topo">
       <div class="marca">PRIMEIRA DAMA</div>
+      <div id="idNoTopo"></div>
       <div class="perfil">♡</div>
     </header>
 
@@ -366,16 +367,20 @@
 const nomeUsuario = document.getElementById("nomeUsuario");
 const continuarCadastro = document.getElementById("continuarCadastro");
 const perfilCriado = localStorage.getItem("primeiraDamaPerfilCriado");
-
+const idSalvo = localStorage.getItem("primeiraDamaId");
+const idNoTopo = document.getElementById("idNoTopo");
 const parametros = new URLSearchParams(window.location.search);
+  if (idSalvo) {
+    idNoTopo.textContent = "@" + idSalvo;
+  }
 const conviteRecebido = parametros.get("convite");
 
-if (conviteRecebido) {
-    // Quem entrou pelo convite precisa criar o próprio perfil
-    telaCadastro.style.display = "flex";
-} else if (perfilCriado === "sim") {
-    // No seu celular, onde o perfil já existe, abre direto a agenda
+if (perfilCriado === "sim") {
+    // Se este celular já tem perfil, entra direto
     telaCadastro.style.display = "none";
+} else {
+    // Só pede cadastro na primeira vez
+    telaCadastro.style.display = "flex";
 }
 continuarCadastro.addEventListener("click", () => {
   const nome = nomeUsuario.value.trim();
@@ -417,7 +422,7 @@ continuarCadastro.addEventListener("click", () => {
   }
 
   localStorage.setItem("primeiraDamaId", id);
-
+idNoTopo.textContent = "@" + id;
   telaCadastro.innerHTML = `
   <h1>Primeira Dama ❤️</h1>
   <h2>Crie seu avatar</h2>
