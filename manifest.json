@@ -1,0 +1,11 @@
+{
+  "name": "Memora",
+  "short_name": "Memora",
+  "description": "Suas histórias vivem aqui. Memórias que ficam.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f2ec",
+  "theme_color": "#6b5148",
+  "orientation": "portrait",
+  "lang": "pt-BR"
+}
