@@ -1,6 +1,5 @@
 const CACHE_NAME = "memora-v4"
 const ARQUIVOS = [];
-];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
