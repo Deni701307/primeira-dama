@@ -1,8 +1,7 @@
-const CACHE_NAME = "memora-v2";
+const CACHE_NAME = "memora-v3"
 const ARQUIVOS = [
   "./",
   "./index.html",
-  "./manifest.json"
 ];
 
 self.addEventListener("install", (event) => {
