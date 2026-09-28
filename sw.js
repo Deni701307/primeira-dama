@@ -1,7 +1,5 @@
 const CACHE_NAME = "memora-v4"
 const ARQUIVOS = [];
-  "./",
-  "./index.html",
 ];
 
 self.addEventListener("install", (event) => {
