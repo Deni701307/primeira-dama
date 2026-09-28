@@ -1,4 +1,4 @@
-const CACHE_NAME = "memora-v3"
+const CACHE_NAME = "memora-v4"
 const ARQUIVOS = [
   "./",
   "./index.html",
