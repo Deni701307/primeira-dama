@@ -130,15 +130,13 @@
     }
 
     .dia.memoria::after {
-      content: "";
-      width: 5px;
-      height: 5px;
-      background: #c99983;
-      border-radius: 50%;
-      position: absolute;
-      bottom: 3px;
-      left: 50%;
-      transform: translateX(-50%);
+  content: "♥";
+  color: #c99983;
+  font-size: 9px;
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
     }
 
     .legenda {
@@ -492,14 +490,6 @@ telaCadastro.style.display = "none";
         anoAtual === 2026
       ) {
         botao.classList.add("hoje");
-      }
-
-      if (
-        mesAtual === 8 &&
-        anoAtual === 2026 &&
-        [8, 11, 17].includes(dia)
-      ) {
-        botao.classList.add("memoria");
       }
 
       let tempoPressionado;
