@@ -1,5 +1,4 @@
-const CACHE_NAME = "memora-v1";
-
+const CACHE_NAME = "memora-v2";
 const ARQUIVOS = [
   "./",
   "./index.html",
