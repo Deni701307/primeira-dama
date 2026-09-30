@@ -518,26 +518,116 @@ const cachorro = document.createElement("div");
 cachorro.className = "cachorro-memoria";
 
 cachorro.innerHTML = `
-  <div class="cao-corpo">
-    <div class="cao-rabo"></div>
+  <svg
+    viewBox="0 0 180 140"
+    width="145"
+    height="120"
+    aria-label="Cachorrinho caramelo buscando uma memória"
+    style="position:absolute;left:0;top:0;overflow:visible"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g stroke="#5b3825" stroke-width="4"
+       stroke-linecap="round" stroke-linejoin="round">
 
-    <div class="cao-tronco">
-      <div class="cao-pata pata1"></div>
-      <div class="cao-pata pata2"></div>
-      <div class="cao-pata pata3"></div>
-      <div class="cao-pata pata4"></div>
-    </div>
+      <!-- Rabo -->
+      <g>
+        <animateTransform
+          attributeName="transform" type="rotate"
+          values="-15 48 78;15 48 78;-15 48 78"
+          dur="0.35s" repeatCount="indefinite"
+        />
+        <path d="M48 78 Q20 73 19 48"
+              fill="none" stroke="#5b3825" stroke-width="15"/>
+        <path d="M48 78 Q20 73 19 48"
+              fill="none" stroke="#eda35b" stroke-width="8"/>
+      </g>
 
-    <div class="cao-cabeca">
-      <div class="cao-orelha orelha1"></div>
-      <div class="cao-orelha orelha2"></div>
-      <div class="cao-olho olho1"></div>
-      <div class="cao-olho olho2"></div>
-      <div class="cao-focinho"></div>
-    </div>
+      <!-- Patas do lado de trás -->
+      <g>
+        <animateTransform
+          attributeName="transform" type="rotate"
+          values="-18 62 88;18 62 88;-18 62 88"
+          dur="0.5s" repeatCount="indefinite"
+        />
+        <path d="M62 88 L58 117 Q58 123 69 121"
+              fill="none" stroke="#5b3825" stroke-width="13"/>
+        <path d="M62 88 L58 117"
+              fill="none" stroke="#b97942" stroke-width="6"/>
+      </g>
 
-    <div class="mini-capsula">❤️</div>
-  </div>
+      <g>
+        <animateTransform
+          attributeName="transform" type="rotate"
+          values="18 108 88;-18 108 88;18 108 88"
+          dur="0.5s" repeatCount="indefinite"
+        />
+        <path d="M108 88 L110 117 Q110 123 121 121"
+              fill="none" stroke="#5b3825" stroke-width="13"/>
+        <path d="M108 88 L110 117"
+              fill="none" stroke="#b97942" stroke-width="6"/>
+      </g>
+
+      <!-- Corpo -->
+      <ellipse cx="82" cy="78" rx="43" ry="27" fill="#eda35b"/>
+      <ellipse cx="82" cy="83" rx="25" ry="15"
+               fill="#ffd39a" stroke="none"/>
+
+      <!-- Patas da frente -->
+      <g>
+        <animateTransform
+          attributeName="transform" type="rotate"
+          values="18 53 91;-18 53 91;18 53 91"
+          dur="0.5s" repeatCount="indefinite"
+        />
+        <path d="M53 91 L51 120 Q51 126 63 124"
+              fill="none" stroke="#5b3825" stroke-width="14"/>
+        <path d="M53 91 L51 120"
+              fill="none" stroke="#eda35b" stroke-width="7"/>
+      </g>
+
+      <g>
+        <animateTransform
+          attributeName="transform" type="rotate"
+          values="-18 103 91;18 103 91;-18 103 91"
+          dur="0.5s" repeatCount="indefinite"
+        />
+        <path d="M103 91 L102 120 Q102 126 114 124"
+              fill="none" stroke="#5b3825" stroke-width="14"/>
+        <path d="M103 91 L102 120"
+              fill="none" stroke="#eda35b" stroke-width="7"/>
+      </g>
+
+      <!-- Cabeça e orelha caída -->
+      <ellipse cx="123" cy="58" rx="29" ry="28" fill="#eda35b"/>
+      <path d="M109 35 Q91 31 94 55 Q96 77 108 69
+               Q117 58 109 35"
+            fill="#a86538"/>
+
+      <!-- Focinho -->
+      <ellipse cx="144" cy="69" rx="22" ry="15" fill="#ffd39a"/>
+      <ellipse cx="160" cy="64" rx="7" ry="5"
+               fill="#302522" stroke="none"/>
+
+      <!-- Olho e sorriso -->
+      <ellipse cx="130" cy="52" rx="5" ry="7"
+               fill="#302522" stroke="none"/>
+      <circle cx="132" cy="50" r="2" fill="white" stroke="none"/>
+      <path d="M145 76 Q153 81 159 75"
+            fill="none" stroke-width="2.5"/>
+
+      <!-- Coração aparece no retorno -->
+      <g opacity="0">
+        <animate attributeName="opacity"
+                 begin="1.45s" dur="0.15s"
+                 from="0" to="1" fill="freeze"/>
+        <path d="M157 92
+                 C138 81 145 72 152 77
+                 L157 82 L162 77
+                 C170 72 178 82 157 92 Z"
+              fill="#e87991" stroke-width="2.5"/>
+      </g>
+    </g>
+  </svg>
 
   <div class="fala-cao">Buscando sua memória... 🐾</div>
 `;
