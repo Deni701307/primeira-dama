@@ -1101,18 +1101,283 @@ if ("serviceWorker" in navigator) {
   });
 }
  </script> 
-      montarCalendario();
-</script>
+      <script>
+(() => {
+  const estilo = document.createElement("style");
+  estilo.textContent = `
+    .dias { row-gap:14px; }
+    .dia-item { position:relative; min-width:0; padding-top:14px; }
+    .dia-item .dia { width:100%; }
+    .adicionar-foto {
+      display:block; margin:3px auto 0; width:32px; height:28px;
+      border:0; border-radius:10px; background:#f4ece7;
+      color:#8c625b; font-size:22px; cursor:pointer;
+    }
+    .coracao-foto {
+      position:absolute; top:0; left:50%;
+      transform:translateX(-50%); color:#bc596e; font-size:13px;
+    }
+    .fotos-data {
+      display:flex; gap:10px; overflow-x:auto; padding:8px 0;
+    }
+    .fotos-data img {
+      width:95px; height:95px; border-radius:50%;
+      object-fit:cover; flex:none;
+    }
+    #galeriaMemora {
+      border:0; border-radius:24px; width:calc(100% - 32px);
+      max-width:430px; padding:24px; color:#332d2a;
+    }
+    #galeriaMemora::backdrop { background:rgba(0,0,0,.45); }
+  `;
+  document.head.appendChild(estilo);
 
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js");
+  const seletor = document.createElement("input");
+  seletor.type = "file";
+  seletor.accept = "image/*";
+  seletor.multiple = true;
+  seletor.hidden = true;
+  document.body.appendChild(seletor);
+
+  const banco = new Promise((resolve, reject) => {
+    const pedido = indexedDB.open("memoraFotos", 1);
+
+    pedido.onupgradeneeded = () => {
+      const tabela = pedido.result.createObjectStore("fotos", {
+        keyPath: "id",
+        autoIncrement: true
+      });
+      tabela.createIndex("data", "data");
+    };
+
+    pedido.onsuccess = () => resolve(pedido.result);
+    pedido.onerror = () => reject(pedido.error);
   });
-}
-</script>
+  banco.catch(() => {});
 
-</body>
-</html>
+  async function lerFotos(data) {
+    const db = await banco;
+    return new Promise((resolve, reject) => {
+      const pedido = db.transaction("fotos")
+        .objectStore("fotos").index("data").getAll(data);
+
+      pedido.onsuccess = () => resolve(pedido.result);
+      pedido.onerror = () => reject(pedido.error);
+    });
+  }
+
+  async function salvarFotos(data, arquivos) {
+    const db = await banco;
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction("fotos", "readwrite");
+
+      arquivos.forEach(arquivo => {
+        tx.objectStore("fotos").add({ data, arquivo });
+      });
+
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error);
+    });
+  }
+
+  let dataEscolhida = null;
+  let salvando = false;
+
+  function escolherFotos(data) {
+    if (salvando) return;
+    dataEscolhida = data;
+    seletor.value = "";
+    seletor.click();
+  }
+
+  async function preencherGaleria(area, data) {
+    const fotos = await lerFotos(data);
+    if (!area.isConnected) return;
+
+    area.replaceChildren();
+
+    if (!fotos.length) {
+      area.textContent = "Este dia ainda não tem fotos.";
+      return;
+    }
+
+    fotos.forEach((foto, i) => {
+      const img = document.createElement("img");
+      const url = URL.createObjectURL(foto.arquivo);
+
+      img.onload = () => URL.revokeObjectURL(url);
+      img.onerror = () => URL.revokeObjectURL(url);
+      img.src = url;
+      img.alt = "Foto " + (i + 1) + " da memória";
+      area.appendChild(img);
+    });
+  }
+
+  async function abrirFotos(data) {
+    document.querySelector("#galeriaMemora")?.remove();
+
+    const painel = document.createElement("dialog");
+    painel.id = "galeriaMemora";
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = data.split("-").reverse().join("/");
+
+    const area = document.createElement("div");
+    area.className = "fotos-data";
+
+    const adicionar = document.createElement("button");
+    adicionar.textContent = "＋ Adicionar fotos";
+    adicionar.className = "nova-capsula";
+    adicionar.onclick = () => escolherFotos(data);
+
+    const fechar = document.createElement("button");
+    fechar.textContent = "Fechar";
+    fechar.style.cssText =
+      "margin-top:16px;padding:12px;border:0;border-radius:12px";
+    fechar.onclick = () => painel.close();
+
+    painel.addEventListener("close", () => painel.remove());
+    painel.append(titulo, area, adicionar, fechar);
+    document.body.appendChild(painel);
+    painel.showModal();
+
+    try {
+      await preencherGaleria(area, data);
+    } catch {
+      area.textContent = "Não foi possível carregar as fotos.";
+    }
+  }
+
+  seletor.addEventListener("change", async () => {
+    const data = dataEscolhida;
+    const arquivos = Array.from(seletor.files || []);
+
+    if (!data || !arquivos.length) return;
+
+    if (arquivos.some(f => !f.type.startsWith("image/"))) {
+      alert("Escolha somente fotos.");
+      return;
+    }
+
+    salvando = true;
+
+    try {
+      await salvarFotos(data, arquivos);
+      await marcarCoracoes();
+      await abrirFotos(data);
+    } catch {
+      alert("Não foi possível salvar. Verifique o espaço e tente novamente.");
+    } finally {
+      salvando = false;
+    }
+  });
+
+  const dias = document.querySelector(".dias");
+
+  async function marcarCoracoes() {
+    for (const item of dias.querySelectorAll(".dia-item")) {
+      try {
+        const fotos = await lerFotos(item.dataset.data);
+        if (!item.isConnected) continue;
+
+        item.querySelector(".coracao-foto")?.remove();
+
+        if (fotos.length) {
+          const coracao = document.createElement("span");
+          coracao.className = "coracao-foto";
+          coracao.textContent = "♥";
+          coracao.setAttribute("aria-label", "Tem foto salva");
+          item.appendChild(coracao);
+        }
+      } catch {
+        // Erros também são informados ao abrir ou salvar fotos.
+      }
+    }
+  }
+
+  function adaptarCalendario() {
+    const mes = String(mesAtual + 1).padStart(2, "0");
+
+    dias.querySelectorAll(":scope > button.dia").forEach(botao => {
+      const dia = Number(botao.textContent);
+      const data = anoAtual + "-" + mes + "-" +
+        String(dia).padStart(2, "0");
+
+      const item = document.createElement("div");
+      item.className = "dia-item";
+      item.dataset.data = data;
+
+      const mais = document.createElement("button");
+      mais.className = "adicionar-foto";
+      mais.textContent = "+";
+      mais.setAttribute("aria-label", "Adicionar fotos em " + data);
+      mais.onclick = () => escolherFotos(data);
+
+      botao.replaceWith(item);
+      item.append(botao, mais);
+
+      const hoje = new Date();
+      botao.classList.toggle("hoje",
+        dia === hoje.getDate() &&
+        mesAtual === hoje.getMonth() &&
+        anoAtual === hoje.getFullYear()
+      );
+
+      let inicioToque = 0;
+
+      botao.addEventListener("pointerdown", () => {
+        dataEscolhida = data;
+        inicioToque = Date.now();
+      });
+
+      botao.addEventListener("click", event => {
+        // Um toque longo mantém a animação original do cachorrinho.
+        if (event.detail !== 0 && Date.now() - inicioToque >= 650) return;
+        abrirFotos(data);
+      });
+    });
+
+    marcarCoracoes();
+  }
+
+  new MutationObserver(() => {
+    if (dias.querySelector(":scope > button.dia")) {
+      adaptarCalendario();
+    }
+  }).observe(dias, { childList: true });
+
+  adaptarCalendario();
+
+  // Substitui as fotos de exemplo na cápsula pelas fotos da data.
+  new MutationObserver(() => {
+    const capsula = document.querySelector(".capsula-memoria");
+
+    if (!capsula || capsula.dataset.fotosPreparadas) return;
+
+    const primeiraFoto = capsula.querySelector('img[src^="IMG_"]');
+    if (!primeiraFoto || !dataEscolhida) return;
+
+    capsula.dataset.fotosPreparadas = "sim";
+
+    const area = primeiraFoto.parentElement;
+    area.className = "fotos-data";
+    area.replaceChildren();
+
+    preencherGaleria(area, dataEscolhida).catch(() => {
+      area.textContent = "Não foi possível carregar as fotos.";
+    });
+  }).observe(document.body, { childList: true });
+
+  document.querySelector(".acoes .nova-capsula").onclick = () => {
+    const hoje = new Date();
+    const data = hoje.getFullYear() + "-" +
+      String(hoje.getMonth() + 1).padStart(2, "0") + "-" +
+      String(hoje.getDate()).padStart(2, "0");
+
+    escolherFotos(data);
+  };
+})();
+</script>
 </body>
 </html>
