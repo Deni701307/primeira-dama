@@ -358,7 +358,13 @@
     </p>
 
   </main>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  window.memoraSupabase = window.supabase.createClient(
+    "https://geiyndvimyrlmekefnqb.supabase.co",
+    "sb_publishable_dPBssliiSzuorpBtBcocRg_hw8P7Q1c"
+  );
+</script>
 <script>
   
   const telaCadastro = document.getElementById("telaCadastro");
