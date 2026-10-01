@@ -396,6 +396,55 @@
 }
 
 window.verificarLoginSupabase = verificarLoginSupabase;
+  document.addEventListener("DOMContentLoaded", async () => {
+  const telaLogin = document.getElementById("telaLogin");
+  const emailLogin = document.getElementById("emailLogin");
+  const senhaLogin = document.getElementById("senhaLogin");
+  const entrarLogin = document.getElementById("entrarLogin");
+  const criarContaLogin = document.getElementById("criarContaLogin");
+
+  const sessao = await verificarLoginSupabase();
+
+  if (sessao) {
+    telaLogin.style.display = "none";
+  } else {
+    telaLogin.style.display = "flex";
+  }
+
+  entrarLogin.addEventListener("click", async () => {
+    const email = emailLogin.value.trim();
+    const senha = senhaLogin.value;
+
+    const { error } = await window.memoraSupabase.auth.signInWithPassword({
+      email: email,
+      password: senha
+    });
+
+    if (error) {
+      alert("Não foi possível entrar: " + error.message);
+      return;
+    }
+
+    telaLogin.style.display = "none";
+  });
+
+  criarContaLogin.addEventListener("click", async () => {
+    const email = emailLogin.value.trim();
+    const senha = senhaLogin.value;
+
+    const { error } = await window.memoraSupabase.auth.signUp({
+      email: email,
+      password: senha
+    });
+
+    if (error) {
+      alert("Não foi possível criar a conta: " + error.message);
+      return;
+    }
+
+    alert("Conta criada com sucesso!");
+  });
+});
 </script>
 <script>
   
