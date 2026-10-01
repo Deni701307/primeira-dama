@@ -246,6 +246,26 @@
 </head>
 
 <body>
+  <div id="telaLogin" class="tela-cadastro">
+  <h1>Memora ❤️</h1>
+  <h2>Entrar ou criar conta</h2>
+
+  <input
+    type="email"
+    id="emailLogin"
+    placeholder="Seu e-mail"
+  >
+
+  <input
+    type="password"
+    id="senhaLogin"
+    placeholder="Sua senha"
+    minlength="6"
+  >
+
+  <button id="entrarLogin">Entrar</button>
+  <button id="criarContaLogin">Criar conta</button>
+  </div>
   <!-- TELA DE PRIMEIRO ACESSO -->
 <div id="telaCadastro" class="tela-cadastro">
 
@@ -364,6 +384,18 @@
     "https://geiyndvimyrlmekefnqb.supabase.co",
     "sb_publishable_dPBssliiSzuorpBtBcocRg_hw8P7Q1c"
   );
+  async function verificarLoginSupabase() {
+  const { data, error } = await window.memoraSupabase.auth.getSession();
+
+  if (error) {
+    console.error("Erro ao verificar login:", error);
+    return null;
+  }
+
+  return data.session;
+}
+
+window.verificarLoginSupabase = verificarLoginSupabase;
 </script>
 <script>
   
