@@ -547,8 +547,9 @@ telaCadastro.style.display = "none";
     "Setembro", "Outubro", "Novembro", "Dezembro"
   ];
 
-  let mesAtual = 8;
-  let anoAtual = 2026;
+    const dataInicial = new Date();
+  let mesAtual = dataInicial.getMonth();
+  let anoAtual = dataInicial.getFullYear();
 
   const tituloMes = document.querySelector(".mes h2");
   const areaDias = document.querySelector(".dias");
