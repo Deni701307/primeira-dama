@@ -1358,7 +1358,21 @@ if ("serviceWorker" in navigator) {
       tx.onabort = () => reject(tx.error);
     });
   }
+  async function excluirFoto(id) {
+    const db = await banco;
 
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction("fotos", "readwrite");
+
+      tx.objectStore("fotos").delete(id);
+
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(
+        tx.error || new Error("Exclusão cancelada")
+      );
+    });
+        }
   let dataEscolhida = null;
   let salvando = false;
 
@@ -1370,6 +1384,7 @@ if ("serviceWorker" in navigator) {
   }
 
   async function preencherGaleria(area, data) {
+        area.dataset.dataFotos = data;
     const fotos = await lerFotos(data);
     if (!area.isConnected) return;
 
@@ -1388,7 +1403,59 @@ if ("serviceWorker" in navigator) {
       img.onerror = () => URL.revokeObjectURL(url);
       img.src = url;
       img.alt = "Foto " + (i + 1) + " da memória";
-      area.appendChild(img);
+            const item = document.createElement("div");
+      item.style.cssText = "flex:none;width:95px;text-align:center";
+
+      const excluir = document.createElement("button");
+      excluir.type = "button";
+      excluir.textContent = "🗑 Excluir";
+      excluir.style.cssText =
+        "display:block;width:95px;min-height:44px;margin-top:6px;" +
+        "border:1px solid #ff92ac;border-radius:12px;" +
+        "background:#44233b;color:white;cursor:pointer";
+
+      excluir.onclick = async event => {
+        event.stopPropagation();
+
+        if (excluir.disabled) return;
+
+        const confirmou = confirm(
+          "Excluir esta foto da memória neste navegador? " +
+          "Não será possível desfazer. " +
+          "A original da galeria do celular não será apagada."
+        );
+
+        if (!confirmou) return;
+        excluir.disabled = true;
+
+        try {
+          await excluirFoto(foto.id);
+        } catch {
+          excluir.disabled = false;
+          alert("Não foi possível excluir. Tente novamente.");
+          return;
+        }
+
+        try {
+          const galerias = document.querySelectorAll(
+            "[data-data-fotos]"
+          );
+
+          for (const galeria of galerias) {
+            if (galeria.dataset.dataFotos === data) {
+              await preencherGaleria(galeria, data);
+            }
+          }
+
+          await marcarCoracoes();
+        } catch {
+          item.remove();
+          alert("Foto excluída. Reabra a data para atualizar.");
+        }
+      };
+
+      item.append(img, excluir);
+      area.appendChild(item);
     });
   }
 
